@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Modal, Text, TouchableOpacity } from 'react-native';
 import Picker from "react-native-picker-select";
+import {useNavigation} from "@react-navigation/native";
 
 const SignUpForm = () => {
     const [username, setUsername] = useState('');
