@@ -7,8 +7,6 @@ import {
     Modal,
     Text,
     TouchableOpacity,
-    Platform,
-    TouchableWithoutFeedback
 } from 'react-native';
 import Picker from "react-native-picker-select";
 import {useNavigation} from "@react-navigation/native";
@@ -33,8 +31,9 @@ const SignUpForm = () => {
     };
 
 
-    const handleSignUp = async (confirmPassword) => {
+    const handleSignUp = async () => {
         if (password !== confirmPassword) {
+            console.log('password   ', password, ' confirm    ', confirmPassword)
             setErrorMessage("Les mots de passe ne correspondent pas.");
             console.log('Les mots de passe ne correspondent pas');
         } else {
@@ -106,7 +105,7 @@ const SignUpForm = () => {
                 onChangeText={text => setConfirmPassword(text)}
                 onPressIn={clearErrorMessage}
             />
-            <TouchableOpacity onPress={closeModal} style={styles.button}>
+            <TouchableOpacity onPress={handleSignUp} style={styles.button}>
                 <Text style={styles.text}>S'inscrire</Text>
             </TouchableOpacity>
             <Modal
