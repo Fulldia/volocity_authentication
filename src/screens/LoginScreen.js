@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import SignUp from "../components/SignUp";
 import Login from "../components/Login";
-import { useNavigation } from '@react-navigation/native';
+import StationsPage from "./StationsPage";
+import SignUpButton from "../components/SignUpButton";
 
-const HomeScreen = () => {
-    const [data, setData] = useState(null);
+const LoginScreen = () => {
 
     // useEffect(() => {
     //     fetchData();
@@ -21,11 +21,8 @@ const HomeScreen = () => {
     //     }
     // };
 
-        const navigation = useNavigation();
-
         const handleSignUp = () => {
-            // Naviguer vers la page SignUp
-            navigation.navigate('SignUp');
+
         };
 
 
@@ -36,10 +33,9 @@ const HomeScreen = () => {
                 style={styles.image}
             />
             <Login />
-            <Text style={styles.text}>Vous n'avez pas de compte ?</Text>
-            <TouchableOpacity onPress={handleSignUp}>
-                <Text style={[styles.text, styles.link]}>S'inscrire</Text>
-            </TouchableOpacity>
+
+            <SignUpButton />
+
         </View>
     );
 };
@@ -58,21 +54,20 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         paddingHorizontal: 10,
     },
-    image: {
-        width: 200, // Définissez la largeur de votre image
-        height: 200, // Définissez la hauteur de votre image
-        resizeMode: 'contain', // Modifiez cela selon vos besoins
-        marginLeft: 85,
-        marginTop: 30,
-    },
-    text: {
-        fontSize: 16,
-        marginBottom: 10,
-    },
     link: {
         color: 'blue',
         textDecorationLine: 'underline',
     },
+    image: {
+        width: 250,
+        height: 40,
+        alignSelf: 'center',
+        marginBottom: 30,
+        marginTop:150,
+    },
+    text: {
+        textAlign: 'center',
+    },
 });
 
-export default HomeScreen;
+export default LoginScreen;

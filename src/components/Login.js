@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     forgot: {
         color:"grey",
         textAlign:"right",
-        marginRight: 35,
+        marginRight: 12,
         marginBottom: 20,
         fontSize: 12,
     },

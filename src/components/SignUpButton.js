@@ -1,12 +1,12 @@
 import React from 'react';
 import {TouchableOpacity, Text, StyleSheet, View} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+
+
 
 const SignUpButton = () => {
-    const navigation = useNavigation();
 
     const handleSignUp = () => {
-        navigation.navigate('SignUp');
+
     };
 
     return (
@@ -21,8 +21,9 @@ const SignUpButton = () => {
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: 250,
         alignItems: 'center',
-        marginBottom: 40,
+        marginBottom: 0,
     },
     button: {
         backgroundColor: '#8CF5FF',
