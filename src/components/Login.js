@@ -19,7 +19,7 @@ const LoginScreen = () => {
         } else {
             setErrorMessage('');
             try {
-                const response = await fetch('http://192.168.1.74:8081/api/auth/signin', {
+                const response = await fetch('http://192.168.1.74:8080/api/auth/signin', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -29,10 +29,11 @@ const LoginScreen = () => {
                         password: password,
                     }),
                 });
-                if (!response.ok) {
+                console.log(response)
+                if (response.status !== 200) {
                     setErrorMessage("Nom d'utilisateur ou mot de passe incorrect");
-
                 } else {
+                    console.log(response.ok);
                     setIsModalVisible(true);
                 }
             }
@@ -150,7 +151,6 @@ const styles = StyleSheet.create({
     errorText: {
         color: 'red',
         textAlign: 'left',
-        marginBottom: 20,
         fontFamily: 'Outfit-Medium',
     },
 });
