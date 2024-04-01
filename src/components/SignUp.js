@@ -7,6 +7,8 @@ import {
     Modal,
     Text,
     TouchableOpacity,
+    Platform,
+    TouchableWithoutFeedback
 } from 'react-native';
 import Picker from "react-native-picker-select";
 import {useNavigation} from "@react-navigation/native";
@@ -18,7 +20,6 @@ function setError(lesMotsDePasseNeCorrespondentPas) {
 const SignUpForm = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
-    const [selectedRole, setSelectedRole] = useState('user');
     const [password, setPassword] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -30,16 +31,24 @@ const SignUpForm = () => {
         setErrorMessage('');
     };
 
+    const handlePasswordChange = (password) => {
+        setPassword(password);
+    };
+
+    const handleConfirmPasswordChange = (password) => {
+        setConfirmPassword(password);
+    };
+
 
     const handleSignUp = async () => {
         if (password !== confirmPassword) {
-            console.log('password   ', password, ' confirm    ', confirmPassword)
             setErrorMessage("Les mots de passe ne correspondent pas.");
             console.log('Les mots de passe ne correspondent pas');
         } else {
             setError('');
+            let role = "user";
             try {
-                const response = await fetch('http://192.168.1.74:8080/api/auth/signup', {
+                const response = await fetch('http://192.168.1.74:8081/api/auth/signup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -47,7 +56,7 @@ const SignUpForm = () => {
                     body: JSON.stringify({
                         username: username,
                         email: email,
-                        role: "user",
+                        role: role,
                         password: password,
                     }),
                 });
@@ -60,7 +69,6 @@ const SignUpForm = () => {
                 setUsername('');
                 setEmail('');
                 setPassword('');
-                setSelectedRole('');
                 console.log('Inscription réussie');
 
             } catch (error) {
@@ -68,11 +76,11 @@ const SignUpForm = () => {
             }
         }
     };
-
     const closeModal = () => {
         // Fermer la fenêtre modale
         setIsModalVisible(false);
     };
+
     return (
             <View style={styles.form}>
             {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
@@ -94,7 +102,7 @@ const SignUpForm = () => {
                 placeholder="Mot de passe"
                 secureTextEntry={true}
                 value={password}
-                onChangeText={text => setPassword(text)}
+                onChangeText={handlePasswordChange}
                 onPressIn={clearErrorMessage}
             />
             <TextInput
@@ -102,7 +110,7 @@ const SignUpForm = () => {
                 placeholder="Vérifier mot de passe"
                 secureTextEntry={true}
                 value={confirmPassword}
-                onChangeText={text => setConfirmPassword(text)}
+                onChangeText={handleConfirmPasswordChange}
                 onPressIn={clearErrorMessage}
             />
             <TouchableOpacity onPress={handleSignUp} style={styles.button}>

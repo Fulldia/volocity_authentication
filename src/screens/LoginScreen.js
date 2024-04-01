@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity, Button} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity, Button, Modal} from 'react-native';
 import SignUp from "../components/SignUp";
 import Login from "../components/Login";
 import StationsPage from "./StationsPage";
 import SignUpButton from "../components/SignUpButton";
 
 const LoginScreen = () => {
-
-
-    const goToSignUpScreen = () => {
-    };
 
         return (
         <View style={styles.container}>
@@ -18,7 +14,6 @@ const LoginScreen = () => {
                 style={styles.image}
             />
             <Login />
-            <Button title="S'inscrire" onPress={goToSignUpScreen} />
 
             <SignUpButton />
 
@@ -30,7 +25,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        paddingHorizontal: 20,
+        alignItems: 'center',
+        paddingLeft: 50,
+        paddingRight: 50,
     },
     input: {
         height: 40,
@@ -48,8 +45,8 @@ const styles = StyleSheet.create({
         width: 250,
         height: 40,
         alignSelf: 'center',
-        marginBottom: 30,
-        marginTop:120,
+        marginBottom: 50,
+        marginTop:0,
     },
     text: {
         textAlign: 'center',

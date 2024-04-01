@@ -12,7 +12,7 @@ const App = () => {
       <NavigationContainer>
           <View style={styles.container}>
         {/*<LoginScreen />*/}
-              <SignUpScreen/>
+              <LoginScreen />
 
           </View>
       </NavigationContainer>
