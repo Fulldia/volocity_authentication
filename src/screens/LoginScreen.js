@@ -4,9 +4,7 @@ import SignUp from "../components/SignUp";
 import Login from "../components/Login";
 import StationsPage from "./StationsPage";
 import SignUpButton from "../components/SignUpButton";
-import Logout from "../components/Logout";
-import {getToken} from "../utils/tokenGestion";
-import * as navigation from "expo-router/build/global-state/routing";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
