@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, TextInput, Text, Button, StyleSheet, Alert, TouchableOpacity, Modal} from 'react-native';
+import {getToken, storeToken} from "../utils/tokenGestion";
 
 const LoginScreen = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-
+    const [isLoggedOut, setIsLoggedOut] = useState(false);
 
     const clearErrorMessage = () => {
         setErrorMessage('');
@@ -33,8 +34,15 @@ const LoginScreen = () => {
                 if (response.status !== 200) {
                     setErrorMessage("Nom d'utilisateur ou mot de passe incorrect");
                 } else {
+                    const data = await response.json();
+                    const accessToken = data.accessToken;
                     console.log(response.ok);
+                    response.headers.get('Authorization');
+                    console.log('response token : ', accessToken);
+                    await storeToken(accessToken);
                     setIsModalVisible(true);
+                    setIsLoggedOut(true);
+
                 }
             }
             catch (error) {
@@ -45,6 +53,7 @@ const LoginScreen = () => {
         setUsername('');
         setPassword('');
     };
+
 
     const closeModal = () => {
         // Fermer la fenêtre modale

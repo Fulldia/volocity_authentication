@@ -4,8 +4,19 @@ import SignUp from "../components/SignUp";
 import Login from "../components/Login";
 import StationsPage from "./StationsPage";
 import SignUpButton from "../components/SignUpButton";
+import Logout from "../components/Logout";
+import {getToken} from "../utils/tokenGestion";
+
 
 const LoginScreen = () => {
+
+    useEffect(() => {
+        getToken().then(token => {
+            if (token) {
+                console.log("TOKEN DEJA STOCKE !")
+            }
+        }, []);
+    });
 
         return (
         <View style={styles.container}>
@@ -14,6 +25,8 @@ const LoginScreen = () => {
                 style={styles.image}
             />
             <Login />
+
+            <Logout />
 
             <SignUpButton />
 
