@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useState} from "react";
 
 // Fonction pour stocker le token JWT
 const storeToken = async (token) => {
@@ -11,21 +12,7 @@ const storeToken = async (token) => {
 };
 
 // Fonction pour récupérer le token JWT
-const getToken = async () => {
-    try {
-        const token = await AsyncStorage.getItem('jwtToken');
-        if (token === null) {
-            console.log('No token stored');
-            return null;
-        } else {
-            console.log('Token retrieved successfully !');
-            console.log('Token: ', token)
-        }
-    } catch (error) {
-        console.log('Error retrieving token: ', error);
-        return null;
-    }
-};
+
 
 // Fonction pour supprimer le token JWT
 const removeToken = async () => {
@@ -37,4 +24,4 @@ const removeToken = async () => {
     }
 };
 
-export { storeToken, getToken, removeToken };
+export { storeToken, removeToken };

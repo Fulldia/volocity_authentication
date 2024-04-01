@@ -1,20 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import {View, TextInput, Text, Button, StyleSheet, Alert, TouchableOpacity, Modal} from 'react-native';
-import {getToken, storeToken} from "../utils/tokenGestion";
+import {storeToken} from "../utils/tokenGestion";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const LoginScreen = () => {
+
+const Login = ({ isToken, setIsToken }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [isLoggedOut, setIsLoggedOut] = useState(false);
 
     const clearErrorMessage = () => {
         setErrorMessage('');
     };
 
     const handleLogin = async () => {
-        if (username.trim() === '' || password.trim() === '') {
+        console.log('Connexion en cours...', isToken);
+        if (isToken === false) {
+            if (username.trim() === '' || password.trim() === '') {
             setErrorMessage("Veuillez saisir un nom d\'utilisateur et un mot de passe");
             return;
         } else {
@@ -41,19 +44,43 @@ const LoginScreen = () => {
                     console.log('response token : ', accessToken);
                     await storeToken(accessToken);
                     setIsModalVisible(true);
-                    setIsLoggedOut(true);
-
+                    setIsToken(true);
                 }
             }
             catch (error) {
                 console.error('Error:', error);
             }
         }
-        // Réinitialiser les champs de saisie après la tentative de connexion
-        setUsername('');
-        setPassword('');
+            // Réinitialiser les champs de saisie après la tentative de connexion
+            setUsername('');
+            setPassword('');
+            setIsToken(true);
+        }
+        else {
+            console.log("Vous êtes déjà connecté !");
+        }
     };
 
+    const handleLogout = async () => {
+        console.log('Déconnexion en cours...', setIsToken);
+        if (isToken === true) {
+            try {
+                const response = await fetch('http://192.168.1.74:8080/api/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                await AsyncStorage.removeItem('jwtToken');
+                console.log('response', response);
+                setIsModalVisible(true);
+                setIsToken(false);
+            } catch (error) {
+                console.error('Error:', error);
+                Alert.alert('Erreur', 'Impossible de se déconnecter en ce moment.');
+            }
+        }
+    };
 
     const closeModal = () => {
         // Fermer la fenêtre modale
@@ -82,6 +109,14 @@ const LoginScreen = () => {
                 <Text style={styles.text}>Se connecter</Text>
             </TouchableOpacity>
 
+            {(isToken ? (
+                <TouchableOpacity style={styles.buttonDisconnect} onPress={handleLogout} >
+                <Text style={styles.buttonText}>Se déconnecter</Text>
+                </TouchableOpacity>
+            ) : null)}
+
+
+
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -90,7 +125,11 @@ const LoginScreen = () => {
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        <Text style={styles.modalText}>Connexion réussie !</Text>
+                        {isToken ? (
+                            <Text style={styles.modalText}>Connexion réussie !</Text>
+                        ) : (
+                            <Text style={styles.modalText}>Déconnexion réussie</Text>
+                        )}
                         <TouchableOpacity onPress={closeModal}>
                             <Text style={styles.closeButton}>Fermer</Text>
                         </TouchableOpacity>
@@ -152,6 +191,20 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginTop: 10,
     },
+    buttonDisconnect: {
+        backgroundColor: "orange",
+        color:"white",
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        marginTop: 10,
+    },
+    buttonText: {
+        color: '#FFFFFF',
+        textAlign: 'center',
+        fontSize: 16,
+        fontFamily: 'Outfit-Medium',
+    },
     text: {
         color: 'black',
         fontSize: 16,
@@ -164,4 +217,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LoginScreen;
+export default Login;
